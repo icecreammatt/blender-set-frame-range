@@ -1,4 +1,18 @@
 import bpy
+from bpy.utils import register_class, unregister_class
+
+bl_info = {
+    "name": "Set Frame",
+    "author": "Matt Carrier",
+    "version": (1, 0),
+    "blender": (1, 5, 0),
+    "location": "Sequencer > Sidebar > Export Helper",
+    "description": "Set the frame range start and end to the start and end of the actively selected clip",
+    "category": "Sequencer",
+    "wiki_url": "",
+    "warning": ""
+}
+    # "location": "Sequencer > Sidebar > Export Utils",
 
 print("Registering Custom Panel")
 
@@ -34,13 +48,18 @@ class PANEL_CUSTOM_UI(bpy.types.Panel):
         row.scale_y = 2
         row.operator("object.button_custom", text = "Set frame range from selection", icon = "TRIA_RIGHT")
 
+_classes = [
+    PANEL_CUSTOM_UI,
+    BUTTON_CUSTOM
+]
+
 def register():
-    bpy.utils.register_class(PANEL_CUSTOM_UI)
-    bpy.utils.register_class(BUTTON_CUSTOM)
+    for cls in _classes:
+        register_class(cls)
 
 def unregister():
-    bpy.utils.register_class(PANEL_CUSTOM_UI)
-    bpy.utils.register_class(BUTTON_CUSTOM)
+    for cls in _classes:
+        unregister_class(cls)
 
 if __name__ == "__main__":
     register()
