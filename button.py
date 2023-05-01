@@ -4,7 +4,7 @@ from bpy.utils import register_class, unregister_class
 bl_info = {
     "name": "Set Frame",
     "author": "Matt Carrier",
-    "version": (1, 0),
+    "version": (1, 1),
     "blender": (1, 5, 0),
     "location": "Sequencer > Sidebar > Export Helper",
     "description": "Set the frame range start and end to the start and end of the actively selected clip",
@@ -62,4 +62,8 @@ def unregister():
         unregister_class(cls)
 
 if __name__ == "__main__":
+    print("Running script")
+    register()
+else:
+    print("Starting addon")
     register()
