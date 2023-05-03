@@ -1,20 +1,31 @@
-import bpy
-from bpy.utils import register_class, unregister_class
-
 bl_info = {
-    "name": "Set Frame",
+    "name": "Set Frame Range",
     "author": "Matt Carrier",
-    "version": (1, 1),
-    "blender": (1, 5, 0),
+    "version": (1, 2),
+    "blender": (3, 5, 0),
     "location": "Sequencer > Sidebar > Export Helper",
     "description": "Set the frame range start and end to the start and end of the actively selected clip",
     "category": "Sequencer",
-    "wiki_url": "",
-    "warning": ""
+    "warning" : "",
+    'support': 'COMMUNITY',
+    "wiki_url" : "",
+    "tracker_url" : "https://github.com/icecreammatt/blender-set-frame-range",
 }
-    # "location": "Sequencer > Sidebar > Export Utils",
 
-print("Registering Custom Panel")
+import bpy
+from bpy.utils import register_class, unregister_class
+
+def update_frame_range_to_selected_sequence():
+    ctx = bpy.context
+    active_sequence = ctx.active_sequence_strip
+
+    print("Active Strip Name Start:", active_sequence.frame_final_start)
+    print("Active Strip Name End:", active_sequence.frame_final_end)
+
+    start = active_sequence.frame_final_start
+    end = active_sequence.frame_final_end
+    ctx.scene.frame_start = int(start)
+    ctx.scene.frame_end = int(end)
 
 class BUTTON_CUSTOM(bpy.types.Operator):
     """Set the frame range start and end to the start and end of the actively selected clip"""
@@ -22,13 +33,7 @@ class BUTTON_CUSTOM(bpy.types.Operator):
     bl_idname = "object.button_custom"
 
     def execute(self, context):
-        ctx = bpy.context
-        print("Active Strip Name Start:", ctx.active_sequence_strip.frame_final_start)
-        print("Active Strip Name End:", ctx.active_sequence_strip.frame_final_end)
-        start = ctx.active_sequence_strip.frame_final_start
-        end = ctx.active_sequence_strip.frame_final_end
-        ctx.scene.frame_start = int(start)
-        ctx.scene.frame_end = int(end)
+        update_frame_range_to_selected_sequence()
         return { 'FINISHED' }
 
 class PANEL_CUSTOM_UI(bpy.types.Panel):
@@ -62,8 +67,4 @@ def unregister():
         unregister_class(cls)
 
 if __name__ == "__main__":
-    print("Running script")
-    register()
-else:
-    print("Starting addon")
     register()
