@@ -1,4 +1,4 @@
-# blender-set-frame-range
+# Blender Set Frame Range
 This is a plugin for Blender that adds a button that takes the active sequencer selection and sets the frame range for rendering
 
 ## Install
